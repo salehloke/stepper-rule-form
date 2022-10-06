@@ -19,11 +19,10 @@
       [stepControl]="stepForm"
     >
       <div [formGroupName]="i">
-        <ng-template matStepLabel> {{ i + 1 }} Step</ng-template>
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" placeholder="Name" required />
-        </mat-form-field>
+        <ng-template matStepLabel> Rule Type {{ i + 1 }} </ng-template>
+        <app-first-form-group
+          [addRulesForm]="firstFormGroup"
+        ></app-first-form-group>
         <div>
           <button
             class="btn btn-primary me-1"
@@ -32,11 +31,22 @@
           >
             Add Rules
           </button>
+          <button
+            *ngIf="i !== 0"
+            class="btn btn-danger me-1"
+            matStepperNext
+            (click)="delInput(i)"
+          >
+            Remove Rule
+          </button>
           <button class="btn btn-primary" matStepperNext (click)="addInput(i)">
             Next
           </button>
         </div>
       </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel> Done </ng-template>
     </mat-step>
   </mat-stepper>
 </div>

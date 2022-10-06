@@ -22,43 +22,57 @@ export class StepperVerticalExample implements OnInit {
   firstFormGroup: UntypedFormGroup;
   secondFormGroup: UntypedFormGroup;
   thirdFormGroup: UntypedFormGroup;
+
   stepperFormArray: FormArray;
   currentStep = 0;
 
   constructor(private _formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.stepperFormArray = new FormArray([
-      this._formBuilder.group({
-        name: ['', Validators.required],
-      }),
-    ]);
-    this.mainFormGroup = this._formBuilder.group({
-      formCount: 1,
-      stepData: new FormArray([
-        this._formBuilder.group({
-          name: ['', Validators.required],
-        }),
-      ]),
-    });
+    this.initForm();
+
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
+      ruleName: ['', Validators.required],
+      arithmetic: ['', Validators.required],
+      closingTime: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
+    });
+    this.mainFormGroup = this._formBuilder.group({
+      formCount: 1,
+      stepData: new FormArray([this.firstFormGroup]),
+    });
+  }
+
+  initForm() {
+    this.firstFormGroup = this._formBuilder.group({
+      ruleName: ['', Validators.required],
+      arithmetic: ['', Validators.required],
     });
   }
 
   addInput(currentIndex: number): void {
     const arrayControl = <FormArray>this.mainFormGroup.controls['stepData'];
-    let newGroup = this._formBuilder.group({
-      name: ['', Validators.required],
-    });
-    arrayControl.push(newGroup);
-    const content = this;
-    setTimeout((element: any) => {
-      content.currentStep = currentIndex + 1;
-    });
+    /**
+     * limit to 3 form group
+     * - if current is firstFormGroup, add secondFormGroup
+     * - if current is secondFormGroup, add thirdFormGroup
+     * - if current is thirdFormGroup, cannot add
+     */
+    if (currentIndex === 0) {
+      let newGroup = this._formBuilder.group({
+        name: ['', Validators.required],
+      });
+
+      arrayControl.push(newGroup);
+      const content = this;
+      setTimeout((element: any) => {
+        content.currentStep = currentIndex + 1;
+      });
+    } else if (currentIndex === 1) {
+    } else if (currentIndex === 2) {
+    }
   }
   delInput(index: number): void {
     const arrayControl = <FormArray>this.mainFormGroup.controls['stepData'];
