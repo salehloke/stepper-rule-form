@@ -7,7 +7,11 @@
 </button>
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
   <ng-container></ng-container>
-  <mat-step [stepControl]="firstFormGroup">
+
+  <mat-step
+    *ngFor="let rule of stepperFormArray.controls"
+    [stepControl]="firstFormGroup"
+  >
     <ng-template matStepLabel>
       <div class="justify-content-end">
         <span class="pe-3">Rule 1 </span>
@@ -18,6 +22,7 @@
       [addRulesForm]="firstFormGroup"
     ></app-first-form-group>
   </mat-step>
+
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Fill out your Roles details</ng-template>

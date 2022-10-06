@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  UntypedFormArray,
+  Validators,
+} from '@angular/forms';
 
 /**
  * @title Stepper vertical
@@ -9,12 +15,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: 'stepper-vertical-example.html',
   styleUrls: ['stepper-vertical-example.css'],
 })
-export class StepperVerticalExample implements OnInit {
+export class StepperVerticalExample implements OnInit, AfterViewInit {
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
-  stepperFormArray: FormArray
+  stepperFormArray: UntypedFormArray = new UntypedFormArray([]);
 
   entitiesCollection: any = [
     {
@@ -41,9 +47,17 @@ export class StepperVerticalExample implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
     });
+    this.stepperFormArray = new UntypedFormArray([]);
+
+    this.stepperFormArray.push(this.firstFormGroup);
+    this.stepperFormArray.push(this.secondFormGroup);
   }
 
   ngOnInit() {}
+  ngAfterViewInit() {
+    this.stepperFormArray.push(this.firstFormGroup);
+    this.stepperFormArray.push(this.secondFormGroup);
+  }
 }
 
 /**  Copyright 2021 Google LLC. All Rights Reserved.
