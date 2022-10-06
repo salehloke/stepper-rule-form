@@ -5,74 +5,41 @@
 >
   {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
 </button>
-<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
-  <mat-step
-    *ngFor="let stepForm of mainFormGroup.get('stepData')['controls']; let i = index"
-    [stepControl]="stepForm"
+<div [formGroup]="mainFormGroup">
+  <mat-stepper
+    orientation="vertical"
+    [linear]="isLinear"
+    formArrayName="stepData"
+    linear
+    #stepper="matHorizontalStepper"
+    [selectedIndex]="currentStep"
   >
-    <div [formGroup]="stepForm">
-      <ng-template matStepLabel> {{ i + 1 }} Step</ng-template>
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" placeholder="Name" required />
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext (click)="addInput(i)">Next</button>
+    <mat-step
+      *ngFor="let stepForm of stepData.controls; let i = index"
+      [stepControl]="stepForm"
+    >
+      <div [formGroupName]="i">
+        <ng-template matStepLabel> {{ i + 1 }} Step</ng-template>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="Name" required />
+        </mat-form-field>
+        <div>
+          <button
+            class="btn btn-primary me-1"
+            matStepperNext
+            (click)="addInput(i)"
+          >
+            Add Rules
+          </button>
+          <button class="btn btn-primary" matStepperNext (click)="addInput(i)">
+            Next
+          </button>
+        </div>
       </div>
-    </div>
-  </mat-step>
-
-  <mat-step
-    *ngFor="let rule of stepperFormArray.controls"
-    [stepControl]="firstFormGroup"
-  >
-    <ng-template matStepLabel>
-      <div class="justify-content-end">
-        <span class="pe-3">Rule 1 </span>
-        <button class="btn btn-primary btn-sm ms-4">Add Rules</button>
-      </div>
-    </ng-template>
-    <app-first-form-group
-      [addRulesForm]="firstFormGroup"
-    ></app-first-form-group>
-  </mat-step>
-
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p class="mb-4">
-      You are now done. Are you sure you want to submit this data?
-    </p>
-    <div class="mt-4 col-6">
-      <!-- Summary -->
-      <table class="table">
-        <tr>
-          <td>Account Name:</td>
-          <td>Kai Yen</td>
-        </tr>
-        <tr>
-          <td>Email Address:</td>
-          <td>kaiyen@tranglo.com</td>
-        </tr>
-        <tr>
-          <td>Name:</td>
-          <td>Kai Yen</td>
-        </tr>
-        <tr>
-          <td>Account Status:</td>
-          <td>Active</td>
-        </tr>
-        <tr>
-          <td>TimeZone:</td>
-          <td>timezone 1</td>
-        </tr>
-      </table>
-    </div>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-</mat-stepper>
+    </mat-step>
+  </mat-stepper>
+</div>
 
 <!-- Copyright 2021 Google LLC. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that

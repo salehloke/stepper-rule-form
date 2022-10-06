@@ -4,6 +4,7 @@ import {
   FormBuilder,
   FormGroup,
   UntypedFormArray,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 
@@ -17,19 +18,24 @@ import {
 })
 export class StepperVerticalExample implements OnInit {
   isLinear = false;
-  mainFormGroup: FormGroup;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
-
+  mainFormGroup: UntypedFormGroup;
+  firstFormGroup: UntypedFormGroup;
+  secondFormGroup: UntypedFormGroup;
+  thirdFormGroup: UntypedFormGroup;
+  stepperFormArray: FormArray;
   currentStep = 0;
 
   constructor(private _formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    this.stepperFormArray = new FormArray([
+      this._formBuilder.group({
+        name: ['', Validators.required],
+      }),
+    ]);
     this.mainFormGroup = this._formBuilder.group({
       formCount: 1,
-      stepData: this._formBuilder.array([
+      stepData: new FormArray([
         this._formBuilder.group({
           name: ['', Validators.required],
         }),
@@ -57,6 +63,12 @@ export class StepperVerticalExample implements OnInit {
   delInput(index: number): void {
     const arrayControl = <FormArray>this.mainFormGroup.controls['stepData'];
     arrayControl.removeAt(index);
+  }
+
+  get stepData() {
+    const arrayControl = <FormArray>this.mainFormGroup.controls['stepData'];
+    console.log(arrayControl);
+    return arrayControl;
   }
 }
 
