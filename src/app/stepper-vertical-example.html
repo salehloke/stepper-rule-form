@@ -6,7 +6,21 @@
   {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
 </button>
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
-  <ng-container></ng-container>
+  <mat-step
+    *ngFor="let stepForm of mainFormGroup.get('stepData')['controls']; let i = index"
+    [stepControl]="stepForm"
+  >
+    <div [formGroup]="stepForm">
+      <ng-template matStepLabel> {{ i + 1 }} Step</ng-template>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Name" required />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext (click)="addInput(i)">Next</button>
+      </div>
+    </div>
+  </mat-step>
 
   <mat-step
     *ngFor="let rule of stepperFormArray.controls"
@@ -23,98 +37,6 @@
     ></app-first-form-group>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your Roles details</ng-template>
-      <h6>You could have multiple roles</h6>
-      <div class="row">
-        <div class="col-md-4">
-          <!-- Entity-->
-          <mat-form-field appearance="outline">
-            <mat-label>Entity </mat-label>
-            <mat-select>
-              <mat-option value="1">Tranglo Sdn Bhd</mat-option>
-              <mat-option value="2">Tranglo Ptd Ltd</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-          <!-- Department-->
-          <mat-form-field appearance="outline">
-            <mat-label>Department </mat-label>
-            <mat-select>
-              <mat-option value="1">Finance</mat-option>
-              <mat-option value="2">technology</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-          <!-- Role-->
-          <mat-form-field appearance="outline">
-            <mat-label>Department </mat-label>
-            <mat-select>
-              <mat-option value="1">Admin</mat-option>
-              <mat-option value="2">Staff</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <!-- action button row -->
-        <div class="row mb-2">
-          <div
-            class="
-              col-sm
-              mb-2
-              d-flex
-              flex-row
-              justify-content-end
-              align-items-end
-            "
-          >
-            <button class="btn btn-secondary mr-2" type="submit">Add</button>
-            <button class="btn btn-outline-info mr-2" type="button">
-              Reset
-            </button>
-          </div>
-        </div>
-      </div>
-      <div>
-        <table class="table table-bordered table-striped">
-          <thead class="thead-dark">
-            <th colspan="4">Role List</th>
-          </thead>
-          <thead class="thead-dark">
-            <th>Entity</th>
-            <th>Department</th>
-            <th>Role</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of entitiesCollection">
-              <td>{{item.entity}}</td>
-              <td>{{item.department}}</td>
-              <td>{{item.role}}</td>
-              <td>
-                <button class="btn btn-danger btm-sm">
-                  <i class="mdi mdi-delete"></i>Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="4">
-                <hr />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <button class="btn btn-outline-secondary" matStepperPrevious>
-          Back
-        </button>
-        <button class="btn btn-outline-primary" matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     <p class="mb-4">

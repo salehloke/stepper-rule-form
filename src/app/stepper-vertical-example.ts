@@ -15,48 +15,48 @@ import {
   templateUrl: 'stepper-vertical-example.html',
   styleUrls: ['stepper-vertical-example.css'],
 })
-export class StepperVerticalExample implements OnInit, AfterViewInit {
+export class StepperVerticalExample implements OnInit {
   isLinear = false;
+  mainFormGroup: FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
 
-  stepperFormArray: UntypedFormArray = new UntypedFormArray([]);
+  currentStep = 0;
 
-  entitiesCollection: any = [
-    {
-      entity: 'Tranglo Sdn Bhd',
-      department: 'Finance',
-      role: 'Admin',
-    },
-    {
-      entity: 'Tranglo Private Limited',
-      department: 'Finance',
-      role: 'Admin',
-    },
-    {
-      entity: 'xxx Sdn Bhd',
-      department: 'Compliance',
-      role: 'Finance',
-    },
-  ];
+  constructor(private _formBuilder: FormBuilder) {}
 
-  constructor(private _formBuilder: FormBuilder) {
+  ngOnInit() {
+    this.mainFormGroup = this._formBuilder.group({
+      formCount: 1,
+      stepData: this._formBuilder.array([
+        this._formBuilder.group({
+          name: ['', Validators.required],
+        }),
+      ]),
+    });
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
     });
-    this.stepperFormArray = new UntypedFormArray([]);
-
-    this.stepperFormArray.push(this.firstFormGroup);
-    this.stepperFormArray.push(this.secondFormGroup);
   }
 
-  ngOnInit() {}
-  ngAfterViewInit() {
-    this.stepperFormArray.push(this.firstFormGroup);
-    this.stepperFormArray.push(this.secondFormGroup);
+  addInput(currentIndex: number): void {
+    const arrayControl = <FormArray>this.mainFormGroup.controls['stepData'];
+    let newGroup = this._formBuilder.group({
+      name: ['', Validators.required],
+    });
+    arrayControl.push(newGroup);
+    const content = this;
+    setTimeout((element: any) => {
+      content.currentStep = currentIndex + 1;
+    });
+  }
+  delInput(index: number): void {
+    const arrayControl = <FormArray>this.mainFormGroup.controls['stepData'];
+    arrayControl.removeAt(index);
   }
 }
 
