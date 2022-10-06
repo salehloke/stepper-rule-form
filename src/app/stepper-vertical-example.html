@@ -6,15 +6,16 @@
   {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
 </button>
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <ng-container></ng-container>
   <mat-step [stepControl]="firstFormGroup">
     <ng-template matStepLabel>
       <div class="justify-content-end">
-        Rule 1
-        <button>test</button>
+        <span class="pe-3">Rule 1 </span>
+        <button class="btn btn-primary btn-sm ms-4">Add Rules</button>
       </div>
     </ng-template>
     <app-first-form-group
-      [firstFormGroup]="firstFormGroup"
+      [addRulesForm]="firstFormGroup"
     ></app-first-form-group>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /**
  * @title Stepper vertical
@@ -13,6 +13,8 @@ export class StepperVerticalExample implements OnInit {
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+
+  stepperFormArray: FormArray
 
   entitiesCollection: any = [
     {

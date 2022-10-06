@@ -1,75 +1,163 @@
-<form [formGroup]="firstFormGroup">
-  <ng-template matStepLabel>Fill out Account Details</ng-template>
-  <!-- Account Name -->
-  <div class="row">
-    <div class="col-md-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Account Name / Login ID</mat-label>
-        <mat-select>
-          <mat-option value="1">Kai Yen</mat-option>
-          <mat-option value="2">Yin Yin</mat-option>
-        </mat-select>
-      </mat-form-field>
+<form class="px-4" [formGroup]="addRulesForm">
+  <!-- Rule Name -->
+  <div class="row mb-2">
+    <label class="col-4 col-form-label"
+      >Rule Name
+      <span class="text-danger">*</span>
+    </label>
+    <div class="col-8">
+      <input
+        type="text"
+        class="form-control"
+        id="ruleName"
+        formControlName="ruleName"
+        placeholder="Rule Name"
+      />
+      <!-- <tranglo1-form-validation *ngIf="f.ruleName.errors" [control]="f.ruleName">
+        </tranglo1-form-validation> -->
     </div>
   </div>
-  <!-- Email Address -->
-  <div class="row">
-    <div class="col-md-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Email Address</mat-label>
+  <!-- end of Rule Name -->
+  <!-- RULE TYPE 1 -->
+  <div class="row mb-2">
+    <label class="col-4 col-form-label"
+      >Rule Type 1 <span class="text-danger">*</span>
+    </label>
+    <div class="col-8">
+      <select formControlName="arithmetic" class="form-control form-select">
+        <option [value]="null">- Select -</option>
+        <option [value]="1">Multiply</option>
+        <option [value]="2">Add</option>
+        <option [value]="3">Subtract</option>
+      </select>
+    </div>
+  </div>
+  <!-- end of RULE TYPE 1 -->
+  <!-- BID/ASK/MID -->
+  <div class="row mb-2">
+    <label class="col-4 col-form-label"
+      >Bid/Ask/Mid<span class="text-danger">*</span></label
+    >
+    <div class="col-8">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="bid" id="bid" />
+        <label class="form-check-label" for="bid"> Bid </label>
+      </div>
+      <div class="form-check">
         <input
-          type="email"
-          matInput
-          placeholder="Your Email address"
-          formControlName="firstCtrl"
-          required
+          class="form-check-input"
+          type="radio"
+          name="ask"
+          id="ask"
+          checked
         />
-      </mat-form-field>
-    </div>
-  </div>
-  <!-- name -->
-  <div class="row">
-    <div class="col-md-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Name</mat-label>
+        <label class="form-check-label" for="ask"> Ask </label>
+      </div>
+      <div class="form-check">
         <input
-          matInput
-          placeholder="Last name, First name"
-          formControlName="firstCtrl"
-          required
+          class="form-check-input"
+          type="radio"
+          name="mid"
+          id="mid"
+          checked
         />
-      </mat-form-field>
-    </div>
-  </div>
-  <!-- Account Status -->
-
-  <div class="row">
-    <div class="col-md-12">
-      <mat-form-field appearance="outline">
-        <mat-label>Account status </mat-label>
-        <mat-select>
-          <mat-option value="1">Active</mat-option>
-          <mat-option value="2">Inactive</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  <div>
-    <!-- time zone -->
-
-    <div class="row">
-      <div class="col-md-12">
-        <mat-form-field appearance="outline">
-          <mat-label>Time Zone </mat-label>
-          <mat-select>
-            <mat-option value="1">Timezone 1</mat-option>
-            <mat-option value="2">Timezone 2</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <label class="form-check-label" for="mid"> Mid </label>
       </div>
     </div>
-
-    <!-- next button -->
-    <button class="btn btn-outline-primary" matStepperNext>Next</button>
   </div>
+  <!-- end of BID/ASK/MID -->
+  <!-- CLOSING TIME -->
+  <div class="row mb-2">
+    <label class="col-4 col-form-label"
+      >Closing Time <span class="text-danger">*</span></label
+    >
+    <div class="col-8">
+      <select
+        [ngClass]="{
+          'is-invalid':
+            f.closingTime.invalid &&
+            (f.closingTime.dirty || f.closingTime.touched)
+        }"
+        formControlName="closingTime"
+        class="form-control form-select"
+      >
+        <option [value]="null">- Select -</option>
+        <!-- <option *ngFor="let item of topUpDataService.closingTimes$| async" [value]="item.walletTopupBankCode">
+                    {{ item.description }}
+                </option> -->
+        <option [value]="1">9:00 AM</option>
+        <option [value]="2">1:00 PM</option>
+        <option [value]="3">6:00 PM</option>
+      </select>
+      <!-- <tranglo1-form-validation *ngIf="f.closingTime.errors" [control]="f.closingTime">
+        </tranglo1-form-validation> -->
+    </div>
+  </div>
+  <!-- end of CLOSING TIME -->
+  <!-- ARITHMETIC -->
+  <div class="row mb-2">
+    <label class="col-4 col-form-label"
+      >Arithmetic <span class="text-danger">*</span></label
+    >
+    <div class="col-8">
+      <select
+        [ngClass]="{
+          'is-invalid':
+            f.arithmetic.invalid && (f.arithmetic.dirty || f.arithmetic.touched)
+        }"
+        formControlName="arithmetic"
+        class="form-control form-select"
+      >
+        <option [value]="null">- Select -</option>
+        <!-- <option *ngFor="let item of topUpDataService.arithmetics$| async" [value]="item.walletTopupBankCode">
+                    {{ item.description }}
+                </option> -->
+        <option [value]="1">Multiply</option>
+        <option [value]="2">Add</option>
+        <option [value]="3">Subtract</option>
+      </select>
+      <!-- <tranglo1-form-validation *ngIf="f.arithmetic.errors" [control]="f.arithmetic">
+        </tranglo1-form-validation> -->
+    </div>
+  </div>
+  <!-- MARKUP/MARKDOWN VALUE -->
+  <div class="row mb-2">
+    <label class="col-4 col-form-label"
+      >Markup/Markdown Value
+      <span class="text-danger">*</span>
+    </label>
+    <div class="col-4">
+      <input
+        type="text"
+        class="form-control"
+        id="ruleName"
+        formControlName="ruleName"
+        placeholder="Markup/Markdown Value"
+      />
+      <!-- <tranglo1-form-validation
+        *ngIf="f.ruleName.errors"
+        [control]="f.ruleName"
+      >
+      </tranglo1-form-validation> -->
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary me-1"><i class="mdi mdi-plus"></i></button>
+      <button class="btn btn-primary">Add New Rules</button>
+    </div>
+  </div>
+  <!-- end of MARKUP/MARKDOWN VALUE -->
+  <!-- end of ARITHMETIC -->
+  <!-- REMARKS -->
+  <div class="row mb-2">
+    <label for="remarks" class="col-4 col-form-label">Rule Details </label>
+    <div class="col-8">
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Debitis,
+        aliquam minus iure, eos autem quos deleniti, nemo numquam dicta sed
+        dolor. Quis dolores aperiam harum natus voluptates illum nesciunt
+        officia.
+      </p>
+    </div>
+  </div>
+  <!-- end of REMARKS -->
 </form>

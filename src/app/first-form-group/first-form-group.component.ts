@@ -4,13 +4,15 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-first-form-group',
   templateUrl: './first-form-group.component.html',
-  styleUrls: ['./first-form-group.component.css']
+  styleUrls: ['./first-form-group.component.css'],
 })
 export class FirstFormGroupComponent implements OnInit {
-@Input() firstFormGroup: FormGroup
-  constructor() { }
+  @Input() addRulesForm: FormGroup;
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  get f() {
+    return this.addRulesForm.controls;
   }
-
 }
