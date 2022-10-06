@@ -1,0 +1,151 @@
+<button
+  class="btn btn-primary"
+  (click)="isLinear = !isLinear"
+  id="toggle-linear"
+>
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel>
+      <div class="justify-content-end">
+        Rule 1
+        <button>test</button>
+      </div>
+    </ng-template>
+    <app-first-form-group
+      [firstFormGroup]="firstFormGroup"
+    ></app-first-form-group>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out your Roles details</ng-template>
+      <h6>You could have multiple roles</h6>
+      <div class="row">
+        <div class="col-md-4">
+          <!-- Entity-->
+          <mat-form-field appearance="outline">
+            <mat-label>Entity </mat-label>
+            <mat-select>
+              <mat-option value="1">Tranglo Sdn Bhd</mat-option>
+              <mat-option value="2">Tranglo Ptd Ltd</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <!-- Department-->
+          <mat-form-field appearance="outline">
+            <mat-label>Department </mat-label>
+            <mat-select>
+              <mat-option value="1">Finance</mat-option>
+              <mat-option value="2">technology</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <!-- Role-->
+          <mat-form-field appearance="outline">
+            <mat-label>Department </mat-label>
+            <mat-select>
+              <mat-option value="1">Admin</mat-option>
+              <mat-option value="2">Staff</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- action button row -->
+        <div class="row mb-2">
+          <div
+            class="
+              col-sm
+              mb-2
+              d-flex
+              flex-row
+              justify-content-end
+              align-items-end
+            "
+          >
+            <button class="btn btn-secondary mr-2" type="submit">Add</button>
+            <button class="btn btn-outline-info mr-2" type="button">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table class="table table-bordered table-striped">
+          <thead class="thead-dark">
+            <th colspan="4">Role List</th>
+          </thead>
+          <thead class="thead-dark">
+            <th>Entity</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of entitiesCollection">
+              <td>{{item.entity}}</td>
+              <td>{{item.department}}</td>
+              <td>{{item.role}}</td>
+              <td>
+                <button class="btn btn-danger btm-sm">
+                  <i class="mdi mdi-delete"></i>Delete
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <hr />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <button class="btn btn-outline-secondary" matStepperPrevious>
+          Back
+        </button>
+        <button class="btn btn-outline-primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p class="mb-4">
+      You are now done. Are you sure you want to submit this data?
+    </p>
+    <div class="mt-4 col-6">
+      <!-- Summary -->
+      <table class="table">
+        <tr>
+          <td>Account Name:</td>
+          <td>Kai Yen</td>
+        </tr>
+        <tr>
+          <td>Email Address:</td>
+          <td>kaiyen@tranglo.com</td>
+        </tr>
+        <tr>
+          <td>Name:</td>
+          <td>Kai Yen</td>
+        </tr>
+        <tr>
+          <td>Account Status:</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>TimeZone:</td>
+          <td>timezone 1</td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+<!-- Copyright 2021 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
